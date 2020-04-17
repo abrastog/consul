@@ -508,7 +508,6 @@ func (s *state) initialConfigSnapshot() ConfigSnapshot {
 		// there is no need to initialize the map of service resolvers as we
 		// fully rebuild it every time we get updates
 	case structs.ServiceKindIngressGateway:
-		snap.IngressGateway.Upstreams = make(map[IngressListenerKey]structs.Upstreams)
 		snap.IngressGateway.WatchedDiscoveryChains = make(map[string]context.CancelFunc)
 		snap.IngressGateway.DiscoveryChain = make(map[string]*structs.CompiledDiscoveryChain)
 		snap.IngressGateway.WatchedUpstreams = make(map[string]map[string]context.CancelFunc)
@@ -1050,6 +1049,7 @@ func (s *state) handleUpdateIngressGateway(u cache.UpdateEvent, snap *ConfigSnap
 		}
 
 		watchedSvcs := make(map[string]struct{})
+		upstreamsMap := make(map[IngressListenerKey]structs.Upstreams)
 		for _, service := range services.Services {
 			u := makeUpstream(service, s.address)
 
@@ -1060,8 +1060,9 @@ func (s *state) handleUpdateIngressGateway(u cache.UpdateEvent, snap *ConfigSnap
 			watchedSvcs[u.Identifier()] = struct{}{}
 
 			id := IngressListenerKey{Protocol: service.Protocol, Port: service.Port}
-			snap.IngressGateway.Upstreams[id] = append(snap.IngressGateway.Upstreams[id], u)
+			upstreamsMap[id] = append(upstreamsMap[id], u)
 		}
+		snap.IngressGateway.Upstreams = upstreamsMap
 
 		for id, cancelFn := range snap.IngressGateway.WatchedDiscoveryChains {
 			if _, ok := watchedSvcs[id]; !ok {

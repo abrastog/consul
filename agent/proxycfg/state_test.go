@@ -665,6 +665,7 @@ func TestState_WatchesAndUpdates(t *testing.T) {
 				},
 			},
 		},
+		// TODO(ingress): Write a test checking that we create a new Upstreams map everytime GatewayServices is updated
 		"ingress-gateway": testCase{
 			ns: structs.NodeService{
 				Kind:    structs.ServiceKindIngressGateway,

@@ -82,7 +82,7 @@ func routesFromUpstreams(snap proxycfg.ConfigSnapshotUpstreams, upstreams struct
 			chain = snap.DiscoveryChain[upstreamID]
 		}
 
-		if chain == nil || chain.IsDefault() {
+		if chain == nil || (chain.IsDefault() && routeName == "") {
 			// TODO(rb): make this do the old school stuff too
 		} else {
 			useServiceDomain := routeName != ""

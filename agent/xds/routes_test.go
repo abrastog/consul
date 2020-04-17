@@ -134,6 +134,8 @@ func TestRoutesFromSnapshot(t *testing.T) {
 						},
 					},
 				}
+
+				// We do not add baz/qux here so that we test the chain.IsDefault() case
 				entries := []structs.ConfigEntry{
 					&structs.ProxyConfigEntry{
 						Kind: structs.ProxyDefaults,
@@ -150,16 +152,6 @@ func TestRoutesFromSnapshot(t *testing.T) {
 					&structs.ServiceResolverConfigEntry{
 						Kind:           structs.ServiceResolver,
 						Name:           "bar",
-						ConnectTimeout: 22 * time.Second,
-					},
-					&structs.ServiceResolverConfigEntry{
-						Kind:           structs.ServiceResolver,
-						Name:           "baz",
-						ConnectTimeout: 22 * time.Second,
-					},
-					&structs.ServiceResolverConfigEntry{
-						Kind:           structs.ServiceResolver,
-						Name:           "qux",
 						ConnectTimeout: 22 * time.Second,
 					},
 				}

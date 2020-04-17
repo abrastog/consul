@@ -508,6 +508,7 @@ func (s *state) initialConfigSnapshot() ConfigSnapshot {
 		// there is no need to initialize the map of service resolvers as we
 		// fully rebuild it every time we get updates
 	case structs.ServiceKindIngressGateway:
+		snap.IngressGateway.Upstreams = make(map[IngressListenerKey]structs.Upstreams)
 		snap.IngressGateway.WatchedDiscoveryChains = make(map[string]context.CancelFunc)
 		snap.IngressGateway.DiscoveryChain = make(map[string]*structs.CompiledDiscoveryChain)
 		snap.IngressGateway.WatchedUpstreams = make(map[string]map[string]context.CancelFunc)

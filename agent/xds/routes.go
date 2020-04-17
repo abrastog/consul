@@ -51,7 +51,7 @@ func routesFromSnapshotIngressGateway(cfgSnap *proxycfg.ConfigSnapshot) ([]proto
 	for listenerKey, upstreams := range cfgSnap.IngressGateway.Upstreams {
 		routeName := ""
 		if len(upstreams) > 1 {
-			routeName = listenerKey.Protocol
+			routeName = listenerKey.RouteName()
 		}
 
 		routes, err := routesFromUpstreams(cfgSnap.IngressGateway.ConfigSnapshotUpstreams, upstreams, routeName)

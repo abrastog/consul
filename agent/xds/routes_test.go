@@ -123,6 +123,16 @@ func TestRoutesFromSnapshot(t *testing.T) {
 							LocalBindPort:   8080,
 						},
 					},
+					proxycfg.IngressListenerKey{Protocol: "http", Port: 443}: structs.Upstreams{
+						{
+							DestinationName: "baz",
+							LocalBindPort:   443,
+						},
+						{
+							DestinationName: "qux",
+							LocalBindPort:   443,
+						},
+					},
 				}
 				entries := []structs.ConfigEntry{
 					&structs.ProxyConfigEntry{
@@ -142,13 +152,27 @@ func TestRoutesFromSnapshot(t *testing.T) {
 						Name:           "bar",
 						ConnectTimeout: 22 * time.Second,
 					},
+					&structs.ServiceResolverConfigEntry{
+						Kind:           structs.ServiceResolver,
+						Name:           "baz",
+						ConnectTimeout: 22 * time.Second,
+					},
+					&structs.ServiceResolverConfigEntry{
+						Kind:           structs.ServiceResolver,
+						Name:           "qux",
+						ConnectTimeout: 22 * time.Second,
+					},
 				}
 				fooChain := discoverychain.TestCompileConfigEntries(t, "foo", "default", "dc1", connect.TestClusterID+".consul", "dc1", nil, entries...)
 				barChain := discoverychain.TestCompileConfigEntries(t, "bar", "default", "dc1", connect.TestClusterID+".consul", "dc1", nil, entries...)
+				bazChain := discoverychain.TestCompileConfigEntries(t, "baz", "default", "dc1", connect.TestClusterID+".consul", "dc1", nil, entries...)
+				quxChain := discoverychain.TestCompileConfigEntries(t, "qux", "default", "dc1", connect.TestClusterID+".consul", "dc1", nil, entries...)
 
 				snap.IngressGateway.DiscoveryChain = map[string]*structs.CompiledDiscoveryChain{
 					"foo": fooChain,
 					"bar": barChain,
+					"baz": bazChain,
+					"qux": quxChain,
 				}
 			},
 		},

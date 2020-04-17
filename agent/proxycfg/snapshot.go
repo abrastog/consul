@@ -2,6 +2,7 @@ package proxycfg
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/consul/agent/structs"
 	"github.com/mitchellh/copystructure"
@@ -160,6 +161,10 @@ func (c *configSnapshotIngressGateway) IsEmpty() bool {
 type IngressListenerKey struct {
 	Protocol string
 	Port     int
+}
+
+func (k *IngressListenerKey) RouteName() string {
+	return fmt.Sprintf("%s_%d", k.Protocol, k.Port)
 }
 
 // ConfigSnapshot captures all the resulting config needed for a proxy instance.

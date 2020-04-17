@@ -313,6 +313,16 @@ func TestListenersFromSnapshot(t *testing.T) {
 							LocalBindPort:   8080,
 						},
 					},
+					proxycfg.IngressListenerKey{Protocol: "http", Port: 443}: structs.Upstreams{
+						{
+							DestinationName: "baz",
+							LocalBindPort:   443,
+						},
+						{
+							DestinationName: "qux",
+							LocalBindPort:   443,
+						},
+					},
 				}
 			},
 		},

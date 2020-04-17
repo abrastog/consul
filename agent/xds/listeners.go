@@ -265,7 +265,7 @@ func (s *Server) listenersFromSnapshotIngressGateway(cfgSnap *proxycfg.ConfigSna
 
 		listener := makeListener(listenerKey.Protocol, addr, listenerKey.Port)
 		filter, err := makeListenerFilter(
-			true, listenerKey.Protocol, listenerKey.Protocol, "", "ingress_upstream_", "", false)
+			true, listenerKey.Protocol, listenerKey.RouteName(), "", "ingress_upstream_", "", false)
 		if err != nil {
 			return nil, err
 		}

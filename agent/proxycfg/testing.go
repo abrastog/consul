@@ -1234,10 +1234,10 @@ func setupTestVariationConfigEntriesAndSnapshot(
 	case "chain-and-router":
 	case "http-multiple-services":
 		snap.WatchedUpstreamEndpoints["foo"] = map[string]structs.CheckServiceNodes{
-			"v1.foo.default.dc1": TestUpstreamNodes(t),
+			"foo.default.dc1": TestUpstreamNodes(t),
 		}
 		snap.WatchedUpstreamEndpoints["bar"] = map[string]structs.CheckServiceNodes{
-			"v1.bar.default.dc1": TestUpstreamNodesAlternate(t),
+			"bar.default.dc1": TestUpstreamNodesAlternate(t),
 		}
 	default:
 		t.Fatalf("unexpected variation: %q", variation)

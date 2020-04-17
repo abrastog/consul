@@ -3,7 +3,46 @@
   "resources": [
     {
       "@type": "type.googleapis.com/envoy.api.v2.RouteConfiguration",
-      "name": "http",
+      "name": "http_443",
+      "virtualHosts": [
+        {
+          "name": "baz",
+          "domains": [
+            "baz.*"
+          ],
+          "routes": [
+            {
+              "match": {
+                "prefix": "/"
+              },
+              "route": {
+                "cluster": "baz.default.dc1.internal.11111111-2222-3333-4444-555555555555.consul"
+              }
+            }
+          ]
+        },
+        {
+          "name": "qux",
+          "domains": [
+            "qux.*"
+          ],
+          "routes": [
+            {
+              "match": {
+                "prefix": "/"
+              },
+              "route": {
+                "cluster": "qux.default.dc1.internal.11111111-2222-3333-4444-555555555555.consul"
+              }
+            }
+          ]
+        }
+      ],
+      "validateClusters": true
+    },
+    {
+      "@type": "type.googleapis.com/envoy.api.v2.RouteConfiguration",
+      "name": "http_8080",
       "virtualHosts": [
         {
           "name": "foo",
